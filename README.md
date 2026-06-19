@@ -366,7 +366,7 @@ Through this project, the following concepts were implemented:
 
 
 
-\# 👩‍💻 Author
+👩‍💻 Author
 
 
 
