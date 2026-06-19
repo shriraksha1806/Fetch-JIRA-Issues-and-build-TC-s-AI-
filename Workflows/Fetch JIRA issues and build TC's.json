@@ -1,0 +1,337 @@
+{
+  "name": "Fetch JIRA issues and build TC's",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is rakshaa. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "45241b81-77b1-40ad-bdc9-cfb1f3a69380",
+      "name": "When chat message received",
+      "webhookId": "38a820c7-0d99-4ece-80ca-5fb54dbca855"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant\n\nHere are my details \nQA Name: Raksha\n\nYou will get a query via Chat trigger.\nyour task is to first find all the JIRA IDs from the tool \"get JIRA IDs\" and based on the user query, you have to create the unique test cases and upload them to the tool \"Test cases\" one by one make sure that test cases are unique and no duplicates are added in the sheet."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        -80
+      ],
+      "id": "00f1b82c-7aed-4b06-8fe7-0d23746ea25b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        144
+      ],
+      "id": "5df30e99-6322-466b-923b-ceb99ef2fe9a",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "nl32YKy4qDkwJZue",
+          "name": "Groq account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        48,
+        128
+      ],
+      "id": "3a274718-14a8-4ec1-ad9c-c45d6445c840",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "options": {
+          "jql": "project = SOAP ORDER BY created DESC"
+        }
+      },
+      "type": "n8n-nodes-base.jiraTool",
+      "typeVersion": 1,
+      "position": [
+        368,
+        96
+      ],
+      "id": "78eee806-4497-462c-b4f5-1e406c8382ed",
+      "name": "get JIRA IDs",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "lZWoVSoiGqrMg3HU",
+          "name": "Jira SW Cloud account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1yEDeIbwKHTFKX47bbt9jVdOirbu1NmSL2wrP5Yf40y4",
+          "mode": "list",
+          "cachedResultName": "RakshaTestcase SOAP",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yEDeIbwKHTFKX47bbt9jVdOirbu1NmSL2wrP5Yf40y4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1yEDeIbwKHTFKX47bbt9jVdOirbu1NmSL2wrP5Yf40y4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Test Case ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Test_Case_ID', ``, 'string') }}",
+            "Module": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Module', ``, 'string') }}",
+            "Entity Type": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Entity_Type', ``, 'string') }}",
+            "Description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}",
+            "Pre-Condition": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Pre-Condition', ``, 'string') }}",
+            "code": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('code', ``, 'string') }}",
+            "Bug ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Bug_ID', ``, 'string') }}",
+            "Executed By": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Executed_By', ``, 'string') }}",
+            "Status": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Status', ``, 'string') }}",
+            "Actual Result": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Actual_Result', ``, 'string') }}",
+            "Expected Result": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Expected_Result', ``, 'string') }}",
+            "Steps to reproduce": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Steps_to_reproduce', ``, 'string') }}",
+            "Test Data": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Test_Data', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Test Case ID",
+              "displayName": "Test Case ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Module",
+              "displayName": "Module",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Entity Type",
+              "displayName": "Entity Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pre-Condition",
+              "displayName": "Pre-Condition",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Test Data",
+              "displayName": "Test Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Steps to reproduce",
+              "displayName": "Steps to reproduce",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Expected Result",
+              "displayName": "Expected Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Actual Result",
+              "displayName": "Actual Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Executed By",
+              "displayName": "Executed By",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bug ID",
+              "displayName": "Bug ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "code",
+              "displayName": "code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        128
+      ],
+      "id": "eb4ffa70-17c1-4c6f-a94f-b02d3216d995",
+      "name": "Test cases",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "fQ2ZdUutHD23oClQ",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get JIRA IDs": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test cases": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3c31c77d-4fad-4f75-90e3-266108b48f33",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ce3fc1bc902cb7f732b216fb0642f9a51d36ad951604a8f84bc2b012462d39be"
+  },
+  "nodeGroups": [],
+  "id": "8PyDA0j9lUDJ6u3J",
+  "tags": []
+}
