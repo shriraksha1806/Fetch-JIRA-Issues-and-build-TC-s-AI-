@@ -39,6 +39,77 @@ The workflow retrieves Jira issues using the Jira REST API, sends the issue deta
 \* Demonstrate AI-driven software testing
 
 
+## 🚀 Live AI Agent
+
+
+
+Experience the AI-powered JIRA Test Case Generator:
+
+
+
+\*\*Live Demo:\*\*
+
+https://shritester.app.n8n.cloud/webhook/38a820c7-0d99-4ece-80ca-5fb54dbca855/chat
+
+
+
+\---
+
+
+
+\## 📝 How It Works
+
+
+
+1\. Open the Live AI Agent.
+
+2\. Enter a valid JIRA Issue ID (e.g., `CC-731`).
+
+3\. The AI agent fetches the JIRA issue details using the JIRA API.
+
+4\. It analyzes the issue summary and description.
+
+5\. AI automatically generates comprehensive manual test cases, including:
+
+
+
+&#x20;  \* Test Scenario
+
+&#x20;  \* Preconditions
+
+&#x20;  \* Test Steps
+
+&#x20;  \* Expected Results
+
+&#x20;  \* Positive Test Cases
+
+&#x20;  \* Negative Test Cases
+
+&#x20;  \* Boundary Test Cases
+
+&#x20;  \* Priority
+
+
+
+
+
+
+
+&#x20;✨ Key Features
+
+
+
+\* 🤖 AI-powered test case generation
+
+\* 🔗 Real-time JIRA integration
+
+\* 📋 End-to-end manual test case creation
+
+\* ⚡ Instant response through an n8n AI workflow
+
+\* ☁️ Hosted on n8n Cloud for live demonstration
+
+
 
 
 
